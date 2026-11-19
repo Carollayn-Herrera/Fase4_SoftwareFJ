@@ -12,7 +12,7 @@ El sistema gestiona los clientes, servicios y reservas de la empresa Software FJ
 | `logger.py` | Registro de eventos y errores en el archivo `registro_eventos.log` |
 | `entidad.py` | Clase abstracta `EntidadSistema`, base de las demás clases |
 | `cliente.py` | Clase `Cliente` con validaciones de sus datos |
-| `servicios.py` | Clase abstracta `Servicio` y los servicios especializados |
+| `servicio.py` | Clase abstracta `Servicio` y los servicios especializados |
 | `reserva.py` | Clase `Reserva`: confirmación, cancelación y procesamiento |
 | `main.py` | Programa principal con las operaciones simuladas |
 
@@ -28,6 +28,5 @@ No necesita instalar librerías adicionales.
 
 ## Integrantes
 
-- Carollayn Herrera Ramirez: excepciones, registro de logs, clase abstracta general y README
-- (Compañero 2): cliente y servicios
-- (Compañero 3): reserva y programa principal
+- Carollayn Herrera Ramirez: excepciones, registro de logs, clase abstracta general, reserva, programa principal y README
+- Johan Mauricio Pérez: cliente y servicios
