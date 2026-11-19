@@ -1,6 +1,7 @@
 from entidad import EntidadSistema
 from excepciones import (ReservaInvalidaError, ServicioNoDisponibleError,
-                         OperacionNoPermitidaError, CalculoInconsistenteError)
+                         OperacionNoPermitidaError, CalculoInconsistenteError,
+                         ParametroInvalidoError)
 from logger import registrar_evento, registrar_error
 
 
@@ -90,11 +91,11 @@ class Reserva(EntidadSistema):
             raise error
         try:
             # Le pedimos al servicio que calcule su precio, porque cada tipo de servicio cobra distinto
-            costo = self._servicio.calcular_costo(self._duracion, impuesto, descuento)
+            costo = self._servicio.calcular_costo_con_descuento(self._duracion, descuento, impuesto)
             # Si el valor da cero o negativo, algo quedó mal en el cálculo
             if costo <= 0:
                 raise ValueError(f"el costo calculado fue {costo}")
-        except (ValueError, TypeError) as e:
+        except (ValueError, TypeError, ParametroInvalidoError) as e:
             registrar_error(f"Error al calcular el costo de la reserva {self.identificador}", e)
             # Lanzamos nuestro propio error, pero conectado al original para saber qué lo causó
             raise CalculoInconsistenteError("No se pudo calcular el costo de la reserva") from e
@@ -127,9 +128,9 @@ if __name__ == "__main__":
             self.disponible = disponible
 
         # Calcula el precio por horas y le suma el impuesto o le resta el descuento
-        def calcular_costo(self, duracion, impuesto=0, descuento=0):
+        def calcular_costo_con_descuento(self, duracion, descuento=0, impuesto=0):
             subtotal = self.precio_base * duracion
-            return subtotal + subtotal * impuesto - subtotal * descuento
+            return subtotal * (1 - descuento) * (1 + impuesto)
 
     ana = ClientePrueba("Ana Gómez")
     sala = ServicioPrueba("Sala de reuniones", 50000)
